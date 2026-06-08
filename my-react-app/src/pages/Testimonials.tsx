@@ -24,24 +24,22 @@ const testimonials = [
 function Testimonials() {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    // Automatyczne przełączanie opinii co 5 sekund
+    // tak samo jak w Hero – reset timera po ręcznym kliknięciu
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex(prev => (prev + 1) % testimonials.length);
         }, 5000);
         return () => clearInterval(interval);
-    }, []);
+    }, [currentIndex]);
 
     return (
         <section className="bg-gray-50 py-24 px-6">
             <div className="max-w-4xl mx-auto text-center">
 
-                {/* NAGŁÓWEK */}
                 <h2 className="text-4xl md:text-5xl font-extrabold mb-8 text-gray-900">
                     Opinie <span className="text-blue-600">Klientów</span>
                 </h2>
 
-                {/* TESTIMONIAL */}
                 <div className="bg-white rounded-xl shadow-lg p-8 transition duration-500">
                     <p className="text-gray-700 text-lg md:text-xl italic mb-6">
                         "{testimonials[currentIndex].text}"
@@ -59,7 +57,6 @@ function Testimonials() {
                     </div>
                 </div>
 
-                {/* KROPKI DO NAWIGACJI */}
                 <div className="flex justify-center mt-6 space-x-3">
                     {testimonials.map((_, index) => (
                         <button

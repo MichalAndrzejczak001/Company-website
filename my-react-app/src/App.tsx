@@ -1,14 +1,14 @@
-import Navbar from "./pages/Navbar.tsx";
-import Hero from "./pages/Hero.tsx";
-import About from "./pages/About.tsx";
-import Services from "./pages/Services.tsx";
-import Portfolio from "./pages/Portfolio.tsx";
-import Team from "./pages/Team.tsx";
-import Gallery from "./pages/Galery.tsx";
-import Testimonials from "./pages/Testimonials.tsx";
-import Contact from "./pages/Contact.tsx";
-import Footer from "./pages/Footer.tsx";
-import Rest from "./pages/Rest.tsx";
+import Navbar from "./pages/Navbar";
+import Hero from "./pages/Hero";
+import About from "./pages/About";
+import Services from "./pages/Services";
+import Portfolio from "./pages/Portfolio";
+import Team from "./pages/Team";
+import Gallery from "./pages/Gallery";
+import Testimonials from "./pages/Testimonials";
+import Contact from "./pages/Contact";
+import Footer from "./pages/Footer";
+import ScrollToTop from "./pages/ScrollToTop";
 
 function App() {
     return (
@@ -49,7 +49,7 @@ function App() {
 
             <Footer />
 
-            <Rest />
+            <ScrollToTop />
         </>
     );
 }

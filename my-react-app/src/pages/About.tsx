@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function About() {
     const [isOpen, setIsOpen] = useState(false);
@@ -6,21 +6,26 @@ function About() {
     const openVideo = () => setIsOpen(true);
     const closeVideo = () => setIsOpen(false);
 
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") closeVideo();
+        };
+        if (isOpen) document.addEventListener("keydown", handleEsc);
+        return () => document.removeEventListener("keydown", handleEsc);
+    }, [isOpen]);
+
     return (
         <section className="relative bg-white py-20 px-6">
             <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
 
                 {/* LEWA STRONA – ZDJĘCIA */}
                 <div className="relative">
-                    {/* Główne zdjęcie (klikalne) */}
                     <img
                         src="/images/about-main.jpg"
                         alt="Nasz zespół"
                         onClick={openVideo}
                         className="w-full rounded-xl shadow-lg cursor-pointer relative z-10"
                     />
-
-                    {/* Drugie zdjęcie (wystaje, NIE uruchamia filmu) */}
                     <img
                         src="/images/about-secondary.jpg"
                         alt=""
@@ -42,7 +47,6 @@ function About() {
                         dostarczać rozwiązania realnie wspierające biznes.
                     </p>
 
-                    {/* Link do filmu */}
                     <button
                         onClick={openVideo}
                         className="text-blue-600 font-medium hover:underline"
@@ -52,7 +56,6 @@ function About() {
                 </div>
             </div>
 
-            {/* MODAL Z FILMEM */}
             {isOpen && (
                 <div
                     className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
@@ -63,14 +66,12 @@ function About() {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <iframe
-                            className="w-full h-full"
+                            className="w-full h-full border-0"
                             src="https://www.youtube.com/embed/LpNVf8sczqU"
                             title="YouTube video"
-                            frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                         />
-
                     </div>
                 </div>
             )}

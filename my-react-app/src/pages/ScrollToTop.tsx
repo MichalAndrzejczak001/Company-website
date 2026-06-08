@@ -1,12 +1,8 @@
-import { FaArrowUp } from "react-icons/fa6"; // lub "react-icons/fa6" jeśli używasz nowszej wersji
+import { FaArrowUp } from "react-icons/fa6";
 
-
-function Rest() {
+function ScrollToTop() {
     const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth", // płynne przewijanie
-        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     return (
@@ -22,4 +18,4 @@ function Rest() {
     );
 }
 
-export default Rest;
+export default ScrollToTop;

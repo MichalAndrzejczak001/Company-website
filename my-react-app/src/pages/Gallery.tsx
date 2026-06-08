@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const galleryImages = [
     "/images/gallery1.jpg",
@@ -14,6 +14,14 @@ function Gallery() {
 
     const openModal = (image: string) => setSelectedImage(image);
     const closeModal = () => setSelectedImage(null);
+
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === "Escape") closeModal();
+        };
+        if (selectedImage) document.addEventListener("keydown", handleEsc);
+        return () => document.removeEventListener("keydown", handleEsc);
+    }, [selectedImage]);
 
     return (
         <section className="bg-gray-50 py-24 px-6">
