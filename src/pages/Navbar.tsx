@@ -22,27 +22,33 @@ function Navbar() {
     return (
         <nav className="fixed w-full bg-white shadow z-50">
             <div className="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
-                <div
-                    className="text-2xl font-bold text-blue-600 cursor-pointer"
+                <button
+                    className="text-2xl font-bold text-blue-600"
                     onClick={() => scrollToSection("hero")}
                 >
                     Software House
-                </div>
+                </button>
 
                 <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
                     {navLinks.map(link => (
-                        <li
-                            key={link.id}
-                            className="cursor-pointer hover:text-blue-600"
-                            onClick={() => scrollToSection(link.id)}
-                        >
-                            {link.label}
+                        <li key={link.id}>
+                            <button
+                                className="hover:text-blue-600"
+                                onClick={() => scrollToSection(link.id)}
+                            >
+                                {link.label}
+                            </button>
                         </li>
                     ))}
                 </ul>
 
                 <div className="md:hidden">
-                    <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
+                    <button
+                        aria-label={isOpen ? "Zamknij menu" : "Otwórz menu"}
+                        aria-expanded={isOpen}
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="focus:outline-none"
+                    >
                         <div className="w-6 h-0.5 bg-gray-700 mb-1" />
                         <div className="w-6 h-0.5 bg-gray-700 mb-1" />
                         <div className="w-6 h-0.5 bg-gray-700" />
@@ -53,12 +59,13 @@ function Navbar() {
             {isOpen && (
                 <ul className="md:hidden bg-white shadow-lg flex flex-col space-y-4 px-6 py-4 text-gray-700 font-medium">
                     {navLinks.map(link => (
-                        <li
-                            key={link.id}
-                            className="cursor-pointer hover:text-blue-600"
-                            onClick={() => scrollToSection(link.id)}
-                        >
-                            {link.label}
+                        <li key={link.id}>
+                            <button
+                                className="hover:text-blue-600 w-full text-left"
+                                onClick={() => scrollToSection(link.id)}
+                            >
+                                {link.label}
+                            </button>
                         </li>
                     ))}
                 </ul>

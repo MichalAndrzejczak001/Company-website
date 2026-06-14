@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useAutoSlide } from "../hooks/useAutoSlide";
+import type { Slide } from "../types";
 
-const slides = [
+const slides: Slide[] = [
     {
         image: "/images/slide1.jpg",
         title: "INNOWACJE",
@@ -19,15 +20,7 @@ const slides = [
 ];
 
 function Hero() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    // dodanie currentIndex do deps resetuje timer po ręcznej zmianie slajdu
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex(prev => (prev + 1) % slides.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [currentIndex]);
+    const [currentIndex, setCurrentIndex] = useAutoSlide(slides.length);
 
     const prevSlide = () =>
         setCurrentIndex(prev => (prev - 1 + slides.length) % slides.length);
@@ -39,7 +32,7 @@ function Hero() {
         <section className="relative w-full h-[500px] bg-gray-800 flex items-center justify-center overflow-hidden">
             {slides.map((slide, index) => (
                 <img
-                    key={slide.title}
+                    key={index}
                     src={slide.image}
                     alt={slide.title}
                     className={`absolute w-full h-full object-cover transition-opacity duration-1000 ${
@@ -56,12 +49,14 @@ function Hero() {
             </div>
 
             <button
+                aria-label="Poprzedni slajd"
                 onClick={prevSlide}
                 className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-700/50 text-white px-3 py-2 rounded hover:bg-gray-700/80 transition"
             >
                 &#10094;
             </button>
             <button
+                aria-label="Następny slajd"
                 onClick={nextSlide}
                 className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-700/50 text-white px-3 py-2 rounded hover:bg-gray-700/80 transition"
             >
@@ -72,6 +67,8 @@ function Hero() {
                 {slides.map((_, index) => (
                     <button
                         key={index}
+                        aria-label={`Slajd ${index + 1}`}
+                        aria-pressed={index === currentIndex}
                         onClick={() => setCurrentIndex(index)}
                         className={`w-4 h-4 rounded-full transition-colors ${
                             index === currentIndex ? "bg-blue-400" : "bg-gray-400"

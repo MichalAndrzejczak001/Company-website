@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { FaLinkedin } from "react-icons/fa6";
+import type { TeamMember } from "../types";
 
-const teamMembers = [
+const teamMembers: TeamMember[] = [
     { name: "Włodzmierz Kołodziejczyk", role: "CEO & Founder", image: "/images/team1.jpg", linkedin: "https://www.linkedin.com/in/wlodzimierz-kolodziejczyk/" },
     { name: "Anna Kowalska", role: "Frontend Developer", image: "/images/team2.jpg", linkedin: "https://www.linkedin.com/in/anna-kowalska/" },
     { name: "Piotr Nowak", role: "Backend Developer", image: "/images/team3.jpg", linkedin: "https://www.linkedin.com/in/piotr-nowak/" },
@@ -63,7 +64,7 @@ function Team() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-white hover:text-blue-400"
-                                        title="LinkedIn"
+                                        aria-label={`LinkedIn – ${member.name}`}
                                     >
                                         <FaLinkedin className="w-10 h-10" />
                                     </a>
@@ -74,9 +75,11 @@ function Team() {
                 </div>
 
                 <div className="flex justify-center mt-6 space-x-3">
-                    {teamMembers.map((_, index) => (
+                    {teamMembers.map((member, index) => (
                         <button
                             key={index}
+                            aria-label={`Przejdź do: ${member.name}`}
+                            aria-pressed={index === currentIndex}
                             onClick={() => scrollToMember(index)}
                             className={`w-4 h-4 rounded-full transition-colors ${
                                 index === currentIndex ? "bg-blue-600" : "bg-gray-400"

@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useAutoSlide } from "../hooks/useAutoSlide";
+import type { Testimonial } from "../types";
 
-const testimonials = [
+const testimonials: Testimonial[] = [
     {
         name: "Roman Wiejczuk",
         role: "CEO, TechCorp",
@@ -22,15 +23,7 @@ const testimonials = [
 ];
 
 function Testimonials() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    // tak samo jak w Hero – reset timera po ręcznym kliknięciu
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex(prev => (prev + 1) % testimonials.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [currentIndex]);
+    const [currentIndex, setCurrentIndex] = useAutoSlide(testimonials.length);
 
     return (
         <section className="bg-gray-50 py-24 px-6">
@@ -61,6 +54,8 @@ function Testimonials() {
                     {testimonials.map((_, index) => (
                         <button
                             key={index}
+                            aria-label={`Opinia ${index + 1}`}
+                            aria-pressed={index === currentIndex}
                             onClick={() => setCurrentIndex(index)}
                             className={`w-4 h-4 rounded-full transition-colors ${
                                 index === currentIndex ? "bg-blue-600" : "bg-gray-400"

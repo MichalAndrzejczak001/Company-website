@@ -1,4 +1,6 @@
-const services = [
+import type { Service } from "../types";
+
+const services: Service[] = [
     {
         icon: "/icons/web.jpg",
         title: "Aplikacje webowe",

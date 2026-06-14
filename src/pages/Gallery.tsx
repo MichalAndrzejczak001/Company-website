@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useKeyboardClose } from "../hooks/useKeyboardClose";
 
 const galleryImages = [
     "/images/gallery1.jpg",
@@ -15,13 +16,7 @@ function Gallery() {
     const openModal = (image: string) => setSelectedImage(image);
     const closeModal = () => setSelectedImage(null);
 
-    useEffect(() => {
-        const handleEsc = (e: KeyboardEvent) => {
-            if (e.key === "Escape") closeModal();
-        };
-        if (selectedImage) document.addEventListener("keydown", handleEsc);
-        return () => document.removeEventListener("keydown", handleEsc);
-    }, [selectedImage]);
+    useKeyboardClose(!!selectedImage, closeModal);
 
     return (
         <section className="bg-gray-50 py-24 px-6">
@@ -41,7 +36,7 @@ function Gallery() {
                         <img
                             key={index}
                             src={image}
-                            alt={`Galeria ${index + 1}`}
+                            alt={`Zdjęcie z galerii ${index + 1}`}
                             className="w-full h-64 object-cover rounded-lg cursor-pointer shadow-md hover:scale-105 transition-transform"
                             onClick={() => openModal(image)}
                         />
@@ -51,6 +46,9 @@ function Gallery() {
                 {/* MODAL */}
                 {selectedImage && (
                     <div
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Podgląd zdjęcia"
                         className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
                         onClick={closeModal}
                     >

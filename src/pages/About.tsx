@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useKeyboardClose } from "../hooks/useKeyboardClose";
 
 function About() {
     const [isOpen, setIsOpen] = useState(false);
@@ -6,13 +7,7 @@ function About() {
     const openVideo = () => setIsOpen(true);
     const closeVideo = () => setIsOpen(false);
 
-    useEffect(() => {
-        const handleEsc = (e: KeyboardEvent) => {
-            if (e.key === "Escape") closeVideo();
-        };
-        if (isOpen) document.addEventListener("keydown", handleEsc);
-        return () => document.removeEventListener("keydown", handleEsc);
-    }, [isOpen]);
+    useKeyboardClose(isOpen, closeVideo);
 
     return (
         <section className="relative bg-white py-20 px-6">

@@ -1,4 +1,6 @@
-const projects = [
+import type { Project } from "../types";
+
+const projects: Project[] = [
     {
         title: "Strona e-commerce",
         description: "Nowoczesna strona sprzedażowa zintegrowana z systemem płatności.",

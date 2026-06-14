@@ -1,20 +1,38 @@
 import { useState } from "react";
 import { FaLinkedin, FaFacebook } from "react-icons/fa6";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function Contact() {
     const [form, setForm] = useState({ name: "", email: "", message: "" });
+    const [errors, setErrors] = useState({ name: "", email: "", message: "" });
     const [sent, setSent] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
+        setErrors(prev => ({ ...prev, [name]: "" }));
+    };
+
+    const validate = () => {
+        const newErrors = { name: "", email: "", message: "" };
+        if (form.name.trim().length < 2)
+            newErrors.name = "Imię musi mieć co najmniej 2 znaki.";
+        if (!EMAIL_REGEX.test(form.email))
+            newErrors.email = "Podaj poprawny adres email.";
+        if (form.message.trim().length < 10)
+            newErrors.message = "Wiadomość musi mieć co najmniej 10 znaków.";
+        setErrors(newErrors);
+        return !Object.values(newErrors).some(Boolean);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // tu docelowo wysyłka do API
+        if (!validate()) return;
         console.log("Nowa wiadomość:", form);
         setSent(true);
         setForm({ name: "", email: "", message: "" });
+        setErrors({ name: "", email: "", message: "" });
     };
 
     return (
@@ -38,41 +56,59 @@ function Contact() {
                             </button>
                         </div>
                     ) : (
-                        <form className="space-y-4" onSubmit={handleSubmit}>
+                        <form className="space-y-4" onSubmit={handleSubmit} noValidate>
                             <div>
-                                <label className="block text-gray-700 mb-1">Imię i nazwisko</label>
+                                <label className="block text-gray-700 mb-1" htmlFor="name">
+                                    Imię i nazwisko
+                                </label>
                                 <input
+                                    id="name"
                                     type="text"
                                     name="name"
                                     value={form.name}
                                     onChange={handleChange}
                                     placeholder="Twoje imię"
-                                    required
-                                    className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                    aria-describedby={errors.name ? "name-error" : undefined}
+                                    className={`w-full border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.name ? "border-red-500" : "border-gray-300"}`}
                                 />
+                                {errors.name && (
+                                    <p id="name-error" className="text-red-500 text-sm mt-1">{errors.name}</p>
+                                )}
                             </div>
                             <div>
-                                <label className="block text-gray-700 mb-1">Email</label>
+                                <label className="block text-gray-700 mb-1" htmlFor="email">
+                                    Email
+                                </label>
                                 <input
+                                    id="email"
                                     type="email"
                                     name="email"
                                     value={form.email}
                                     onChange={handleChange}
                                     placeholder="Twój email"
-                                    required
-                                    className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                    aria-describedby={errors.email ? "email-error" : undefined}
+                                    className={`w-full border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.email ? "border-red-500" : "border-gray-300"}`}
                                 />
+                                {errors.email && (
+                                    <p id="email-error" className="text-red-500 text-sm mt-1">{errors.email}</p>
+                                )}
                             </div>
                             <div>
-                                <label className="block text-gray-700 mb-1">Wiadomość</label>
+                                <label className="block text-gray-700 mb-1" htmlFor="message">
+                                    Wiadomość
+                                </label>
                                 <textarea
+                                    id="message"
                                     name="message"
                                     value={form.message}
                                     onChange={handleChange}
                                     placeholder="Twoja wiadomość"
-                                    required
-                                    className="w-full border border-gray-300 rounded-md px-4 py-2 h-32 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                    aria-describedby={errors.message ? "message-error" : undefined}
+                                    className={`w-full border rounded-md px-4 py-2 h-32 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.message ? "border-red-500" : "border-gray-300"}`}
                                 />
+                                {errors.message && (
+                                    <p id="message-error" className="text-red-500 text-sm mt-1">{errors.message}</p>
+                                )}
                             </div>
                             <button
                                 type="submit"
@@ -104,10 +140,10 @@ function Contact() {
                     </p>
 
                     <div className="flex space-x-4">
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-blue-600 hover:text-blue-800">
                             <FaLinkedin className="w-6 h-6" />
                         </a>
-                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-blue-600 hover:text-blue-800">
                             <FaFacebook className="w-6 h-6" />
                         </a>
                     </div>
