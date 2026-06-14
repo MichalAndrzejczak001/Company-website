@@ -6,7 +6,7 @@ function ScrollToTop() {
     };
 
     return (
-        <section className="py-12 flex justify-center">
+        <div className="py-12 flex justify-center">
             <button
                 onClick={scrollToTop}
                 className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
@@ -14,7 +14,7 @@ function ScrollToTop() {
                 <FaArrowUp />
                 Na górę
             </button>
-        </section>
+        </div>
     );
 }
 

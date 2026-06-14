@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FaLinkedin } from "react-icons/fa6";
 import type { TeamMember } from "../types";
 
@@ -20,12 +20,34 @@ function Team() {
     const scrollToMember = (index: number) => {
         setCurrentIndex(index);
         const ul = scrollRef.current;
-        if (ul) {
-            const child = ul.children[index] as HTMLElement;
-            const left = child.offsetLeft - ul.clientWidth / 2 + child.clientWidth / 2;
-            ul.scrollTo({ left, behavior: "smooth" });
-        }
+        if (!ul) return;
+        const child = ul.children[index] as HTMLElement | undefined;
+        if (!child) return;
+        const left = child.offsetLeft - ul.clientWidth / 2 + child.clientWidth / 2;
+        ul.scrollTo({ left, behavior: "smooth" });
     };
+
+    useEffect(() => {
+        const ul = scrollRef.current;
+        if (!ul) return;
+        const handleScroll = () => {
+            const center = ul.scrollLeft + ul.clientWidth / 2;
+            let closestIndex = 0;
+            let closestDist = Infinity;
+            Array.from(ul.children).forEach((child, i) => {
+                const el = child as HTMLElement;
+                const elCenter = el.offsetLeft + el.clientWidth / 2;
+                const dist = Math.abs(center - elCenter);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestIndex = i;
+                }
+            });
+            setCurrentIndex(closestIndex);
+        };
+        ul.addEventListener("scroll", handleScroll, { passive: true });
+        return () => ul.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
         <section className="bg-gray-50 py-24 px-6">

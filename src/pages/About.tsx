@@ -24,7 +24,6 @@ function About() {
                     <img
                         src="/images/about-secondary.jpg"
                         alt=""
-                        onClick={(e) => e.stopPropagation()}
                         className="absolute -right-8 -bottom-8 w-2/3 rounded-xl shadow-md opacity-90 z-20 cursor-default"
                     />
                 </div>

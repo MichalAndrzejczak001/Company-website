@@ -6,8 +6,7 @@ function Footer() {
 
     const handleNewsletter = (e: React.FormEvent) => {
         e.preventDefault();
-        // tu docelowo zapis do bazy / Mailchimp itp.
-        console.log("Newsletter:", email);
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
         setEmail("");
     };
 
